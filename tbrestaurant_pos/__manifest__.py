@@ -1,7 +1,7 @@
 {
     "name": "Restaurant POS Kitchen Receipt",
     "version": "19.0.1.0.0",
-    "author": "Bilal Shahzad",
+    "author": "Tribox",
     "category": "Point of Sale",
     "depends": ["point_of_sale", "pos_restaurant", "pos_hr"],
     "assets": {
