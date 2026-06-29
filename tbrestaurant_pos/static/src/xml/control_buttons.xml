@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="restaurant_pos.ControlButtons" t-inherit="point_of_sale.ControlButtons" t-inherit-mode="extension">
+
+        <!-- Hide Note button from toolbar - moved to Actions popup below -->
+        <xpath expr="//t[@t-if='!props.showRemainingButtons || (ui.isSmall and props.showRemainingButtons)']" position="attributes">
+            <attribute name="t-if">false</attribute>
+        </xpath>
+
+        <!-- Hide Course button from toolbar - moved to Actions popup below -->
+        <xpath expr="//button[hasclass('course-btn')]" position="attributes">
+            <attribute name="t-if">false</attribute>
+        </xpath>
+
+        <!-- KT and R before the upload button (fills space left by Note/Course) -->
+        <xpath expr="//button[contains(@t-attf-class,'ms-auto')]" position="before">
+            <button t-if="!props.showRemainingButtons"
+                    t-att-class="buttonClass"
+                    t-att-disabled="!pos.getOrder()?.getOrderlines()?.length"
+                    t-on-click="clickPrintKitchenReceipt">KT</button>
+            <button t-if="!props.showRemainingButtons"
+                    t-att-class="buttonClass"
+                    t-att-disabled="!pos.getOrder()?.getOrderlines()?.length"
+                    t-on-click="() => this.clickPrintFullReceipt()">R</button>
+        </xpath>
+
+        <!-- Note and Course in Actions popup -->
+        <xpath expr="//t[@t-if='props.showRemainingButtons']/div/button[hasclass('o_pricelist_button')]" position="before">
+            <InternalNoteButton label.translate="Note" class="buttonClass"/>
+            <button class="course-btn" t-if="pos.config.module_pos_restaurant and !pos.getOrder()?.isRefund"
+                    t-att-class="buttonClass" t-on-click="()=>this.pos.addCourse()">
+                <span>Course</span>
+            </button>
+        </xpath>
+
+        <!-- Print buttons in Actions popup -->
+        <xpath expr="//t[@t-if='props.showRemainingButtons']/div/button[hasclass('o_pricelist_button')]" position="before">
+            <button t-att-class="buttonClass"
+                    t-att-disabled="!pos.getOrder()?.getOrderlines()?.length"
+                    t-on-click="clickPrintKitchenReceipt">
+                <i class="fa fa-print me-1"/>Print Kitchen Receipt
+            </button>
+            <button t-att-class="buttonClass"
+                    t-att-disabled="!pos.getOrder()?.getOrderlines()?.length"
+                    t-on-click="() => this.clickPrintFullReceipt()">
+                <i class="fa fa-file-text-o me-1"/>Print Full Receipt
+            </button>
+        </xpath>
+    </t>
+</templates>
