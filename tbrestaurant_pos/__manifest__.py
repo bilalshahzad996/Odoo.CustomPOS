@@ -22,5 +22,5 @@
     "installable": True,
     "application": False,
     "license": "LGPL-3",
-    "auto install": "True"
+    "auto_install": True
 }
